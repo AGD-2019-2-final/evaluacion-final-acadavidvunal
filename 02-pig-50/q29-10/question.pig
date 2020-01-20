@@ -40,3 +40,6 @@ u = LOAD 'data.csv' USING PigStorage(',')
 --
 -- >>> Escriba su respuesta a partir de este punto <<<
 --
+f = FOREACH u GENERATE ToDate(birthday,'EEE, MMM d, yy');
+DUMP f;
+-- STORE f INTO 'output' USING PigStorage(',');

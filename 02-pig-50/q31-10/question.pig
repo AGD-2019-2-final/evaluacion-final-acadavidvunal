@@ -8,6 +8,8 @@
 -- 
 -- Escriba el resultado a la carpeta `output` del directorio actual.
 -- 
+fs -rm -f -r data.csv
+fs -put data.csv
 fs -rm -f -r output;
 -- 
 u = LOAD 'data.csv' USING PigStorage(',') 
@@ -20,3 +22,9 @@ u = LOAD 'data.csv' USING PigStorage(',')
 --
 -- >>> Escriba su respuesta a partir de este punto <<<
 --
+ordered_data = ORDER u BY valor ASC;
+val = FOREACH ordered_data GENERATE valor;
+limit_data = LIMIT val 5; 
+DUMP limit_data;
+STORE limit_data INTO 'output';
+fs -get output/ .

@@ -19,6 +19,8 @@
 -- 
 fs -rm -f -r output;
 --
+fs -rm -f -r data.csv
+fs -put data.csv
 u = LOAD 'data.csv' USING PigStorage(',') 
     AS (id:int, 
         firstname:CHARARRAY, 
@@ -29,4 +31,7 @@ u = LOAD 'data.csv' USING PigStorage(',')
 --
 -- >>> Escriba su respuesta a partir de este punto <<<
 --
-
+f = FOREACH u GENERATE SUBSTRING(birthday,0,4), SUBSTRING(birthday,2,4);
+DUMP f;
+STORE f INTO 'output' USING PigStorage(',');
+fs -copyToLocal output output;
